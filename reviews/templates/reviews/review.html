@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
+    <title>Your Review</title>
+</head>
+<body>
+    <form action= "/" method="POST">
+        {% csrf_token %}
+        {% comment %} {% if has_error %}
+        <p> this form is invalid - please enter a valid username</p>
+        {% endif %} {% endcomment %}
+        <div class= 'form-control'>
+        {% comment %} {{ form.user_name.label_tag }}
+        {{ form.user_name}}
+        {{ form.user_name.errors  }}</div>
+        <div class= 'form-control'>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {{ form.email.errors}}  {% endcomment %}
+            {{ form  }}
+    </div>
+        {% comment %} <label for="username">Your name</label>
+        <input type="text" id="username" name="username"> {% endcomment %}
+        <button type="submit ">Send</button>
+
+    </form>
+    
+</body>
+</html>
