@@ -7,5 +7,15 @@ single review{% endblock title %}
 {% block content %}
 <h1>{{ object.user_name}} </h1>
 <p>{{ object.rating_field}} </p>
-<p> {{ object.review_field}} </p> 
+<p> {{ object.review_field}} </p>
+{% if is_favorite %}
+<p> this is your favorite</p>
+{% else %}
+<form action="/review/favorite" method="POST">  
+    {% csrf_token %}
+<input type="hidden" name="id" value="{{ object.id }}">
+<button> Favorite </button>
+</form> 
+{% endif %}
+
 {% endblock content %}

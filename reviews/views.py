@@ -1,6 +1,8 @@
+from typing import Any, Dict
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import ReviewData
+from django.views import View
 from django.views import View
 # Create your views here.
 from .form import ReviewForm
@@ -88,3 +90,20 @@ class AllReviewView(TemplateView):
 class SingleReviewView(DetailView):
     model = ReviewData
     template_name = "reviews/single_review.html"
+    
+    def get_context_data(self, **kwargs) :
+        context =  super().get_context_data(**kwargs)
+        loaded_review = self.object
+        request = self.request
+        favorite_id = request.session.get("favorite_review")
+        context["is_favorite"] = favorite_id == str(loaded_review.id)
+        return context
+
+class AddFavoriteView(View):
+    def post(self, request):
+        review_id = request.POST["id"]
+        print(review_id)
+        request.session["favorite_review"] = review_id
+        return HttpResponseRedirect("/review/"+ review_id)
+    
+     
