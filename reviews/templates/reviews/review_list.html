@@ -1,0 +1,14 @@
+{% extends 'reviews/base.html' %}\
+
+{% block title %}
+all reviews {% endblock title %}
+
+{% block content %}
+<ul>
+    {% for review in reviews  %}
+    <li> {{ review.user_name }} ( rating: {{ review.rating_field }}) </li>
+        
+        {% endfor %}
+</ul>
+
+{% endblock content %}

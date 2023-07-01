@@ -4,7 +4,10 @@ from .models import ReviewData
 from django.views import View
 # Create your views here.
 from .form import ReviewForm
+from django.views.generic import DetailView
 
+
+from django.views.generic.base import TemplateView
 class ReviewView(View):
     def get(self,request):
         form = ReviewForm()
@@ -43,6 +46,45 @@ class ReviewView(View):
 #         "form": form
 #     })
 
+#     def get(self,request):
+# class ThankyouView(View):
+#         return render(request, "reviews/thank_you.html")
+class ThankyouView(TemplateView):
+    template_name = "reviews/thank_you.html"
 
-def thank_you(request):
-    return render(request, "reviews/thank_you.html")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["message"] = "this works!" 
+        return context
+    
+    # def get(self,request):
+    #     return render(request, "reviews/thank_you.html")
+
+
+
+
+# def thank_you(request):
+    # return render(request, "reviews/thank_you.html")
+class AllReviewView(TemplateView):
+    template_name = "reviews/review_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["reviews"] = ReviewData.objects.all()
+        return context
+    
+
+# class SingleReviewView(TemplateView):
+#     template_name = "reviews/single_review.html"
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         review_id = kwargs["id"]
+#         reviews = ReviewData.objects.get(pk = review_id)
+#         context["review"] = reviews
+#         return context
+    
+
+class SingleReviewView(DetailView):
+    model = ReviewData
+    template_name = "reviews/single_review.html"
